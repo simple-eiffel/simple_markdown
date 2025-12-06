@@ -4,6 +4,43 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	testing: "type/manual"
+	use_case_coverage: "[
+		Documentation Sites: test_real_readme_fixture, test_heading_*, test_toc_*
+		Static Site Generators: test_comprehensive_fixture, test_code_block_*
+		Blogging/CMS: test_bold_*, test_italic_*, test_link, test_image
+		Email Generation: test_inline_*, to_html_fragment tests
+		Technical Documentation: test_code_block_*, test_simple_table
+		Chat Platforms: test_strikethrough, test_bold_*, test_link
+		Note-taking Apps: test_comprehensive_fixture, test_task_list
+		Report Generation: test_toc_*, test_multiple_tables
+		Preview Rendering: All basic conversion tests
+	]"
+	commonmark_coverage: "[
+		Headings: test_heading_h1, test_heading_h2_to_h6, test_heading_custom_id
+		Emphasis: test_bold_*, test_italic_*
+		Inline Code: test_inline_code, test_inline_code_escapes_html
+		Links: test_link, test_autolink
+		Images: test_image
+		Lists: test_unordered_list, test_ordered_list, test_task_list
+		Blockquotes: test_blockquote
+		Code Blocks: test_code_block, test_code_block_with_language
+		Horizontal Rules: test_horizontal_rule_*
+		Paragraphs: test_paragraph, test_multiple_paragraphs
+	]"
+	gfm_coverage: "[
+		Strikethrough: test_strikethrough
+		Tables: test_simple_table, test_multiple_tables, test_special_chars_in_table
+		Task Lists: test_task_list
+		Autolinks: test_autolink
+	]"
+	extended_coverage: "[
+		Highlight: test_highlight
+		Superscript: test_superscript
+		Subscript: test_subscript
+		Footnotes: test_footnote_reference, test_footnote_definition
+		Custom IDs: test_heading_custom_id
+		TOC: test_toc_generation, test_toc_from_comprehensive
+	]"
 
 class
 	SIMPLE_MARKDOWN_TEST_SET
