@@ -54,7 +54,8 @@ inherit
 feature -- Test: Headings
 
 	test_heading_h1
-			-- Test H1 heading.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_heading"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -64,7 +65,8 @@ feature -- Test: Headings
 		end
 
 	test_heading_h2_to_h6
-			-- Test all heading levels.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.heading_level"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -77,7 +79,8 @@ feature -- Test: Headings
 		end
 
 	test_heading_custom_id
-			-- Test heading with custom ID.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.extract_heading_id"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -91,7 +94,8 @@ feature -- Test: Headings
 feature -- Test: Basic Inline
 
 	test_bold_asterisks
-			-- Test bold with **.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html_fragment", "covers/{MD_INLINE_PROCESSOR}.process_bold"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -100,7 +104,8 @@ feature -- Test: Basic Inline
 		end
 
 	test_bold_underscores
-			-- Test bold with __.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html_fragment", "covers/{MD_INLINE_PROCESSOR}.process_bold"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -109,7 +114,8 @@ feature -- Test: Basic Inline
 		end
 
 	test_italic_asterisk
-			-- Test italic with *.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html_fragment", "covers/{MD_INLINE_PROCESSOR}.process_italic"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -118,7 +124,8 @@ feature -- Test: Basic Inline
 		end
 
 	test_italic_underscore
-			-- Test italic with _.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html_fragment", "covers/{MD_INLINE_PROCESSOR}.process_italic"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -127,7 +134,8 @@ feature -- Test: Basic Inline
 		end
 
 	test_inline_code
-			-- Test inline code.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html_fragment", "covers/{MD_INLINE_PROCESSOR}.process_code_inline"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -136,7 +144,8 @@ feature -- Test: Basic Inline
 		end
 
 	test_inline_code_escapes_html
-			-- Test inline code escapes HTML.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_code_inline", "covers/{MD_INLINE_PROCESSOR}.escape_html"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -147,7 +156,8 @@ feature -- Test: Basic Inline
 feature -- Test: GFM Strikethrough
 
 	test_strikethrough
-			-- Test strikethrough with ~~.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_strikethrough"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -158,7 +168,8 @@ feature -- Test: GFM Strikethrough
 feature -- Test: Links and Images
 
 	test_link
-			-- Test link syntax.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_links"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -167,7 +178,8 @@ feature -- Test: Links and Images
 		end
 
 	test_image
-			-- Test image syntax.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_images"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -176,7 +188,8 @@ feature -- Test: Links and Images
 		end
 
 	test_autolink
-			-- Test automatic URL linking.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_autolinks"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -187,7 +200,8 @@ feature -- Test: Links and Images
 feature -- Test: Lists
 
 	test_unordered_list
-			-- Test unordered list.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_unordered_list_item"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -199,7 +213,8 @@ feature -- Test: Lists
 		end
 
 	test_ordered_list
-			-- Test ordered list.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_ordered_list_item"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -211,7 +226,8 @@ feature -- Test: Lists
 		end
 
 	test_task_list
-			-- Test GFM task list.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_task_list_item"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -226,7 +242,8 @@ feature -- Test: Lists
 feature -- Test: Blockquote
 
 	test_blockquote
-			-- Test blockquote.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_blockquote"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -237,7 +254,8 @@ feature -- Test: Blockquote
 feature -- Test: Code Blocks
 
 	test_code_block
-			-- Test fenced code block.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_code_fence"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -249,7 +267,8 @@ feature -- Test: Code Blocks
 		end
 
 	test_code_block_with_language
-			-- Test fenced code block with language.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.extract_code_language"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -262,7 +281,8 @@ feature -- Test: Code Blocks
 feature -- Test: Horizontal Rule
 
 	test_horizontal_rule_dashes
-			-- Test horizontal rule with dashes.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_horizontal_rule"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -271,7 +291,8 @@ feature -- Test: Horizontal Rule
 		end
 
 	test_horizontal_rule_asterisks
-			-- Test horizontal rule with asterisks.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_horizontal_rule"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -282,7 +303,8 @@ feature -- Test: Horizontal Rule
 feature -- Test: GFM Tables
 
 	test_simple_table
-			-- Test GFM table.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{MD_TABLE_PROCESSOR}.convert_header_row", "covers/{MD_TABLE_PROCESSOR}.convert_body_row"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -299,7 +321,8 @@ feature -- Test: GFM Tables
 feature -- Test: Extended Syntax
 
 	test_highlight
-			-- Test highlight syntax.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_highlight"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -308,7 +331,8 @@ feature -- Test: Extended Syntax
 		end
 
 	test_superscript
-			-- Test superscript.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_superscript"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -317,7 +341,8 @@ feature -- Test: Extended Syntax
 		end
 
 	test_subscript
-			-- Test subscript.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_subscript"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -326,7 +351,8 @@ feature -- Test: Extended Syntax
 		end
 
 	test_footnote_reference
-			-- Test footnote reference.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process_footnote_refs"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -335,7 +361,8 @@ feature -- Test: Extended Syntax
 		end
 
 	test_footnote_definition
-			-- Test footnote definition.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_footnote_definition"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -346,7 +373,8 @@ feature -- Test: Extended Syntax
 feature -- Test: Paragraphs
 
 	test_paragraph
-			-- Test paragraph wrapping.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -355,7 +383,8 @@ feature -- Test: Paragraphs
 		end
 
 	test_multiple_paragraphs
-			-- Test multiple paragraphs.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{MD_PARSE_STATE}.in_paragraph"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -368,7 +397,8 @@ feature -- Test: Paragraphs
 feature -- Test: Table of Contents
 
 	test_toc_generation
-			-- Test table of contents generation.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.table_of_contents", "covers/{SIMPLE_MARKDOWN}.headings"
 		local
 			md: SIMPLE_MARKDOWN
 			html, toc: STRING
@@ -384,7 +414,8 @@ feature -- Test: Table of Contents
 feature -- Test: Edge Cases
 
 	test_empty_input
-			-- Test empty input.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html"
 		local
 			md: SIMPLE_MARKDOWN
 		do
@@ -393,7 +424,8 @@ feature -- Test: Edge Cases
 		end
 
 	test_crlf_line_endings
-			-- Test Windows line endings.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.normalize_line_endings"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -406,7 +438,8 @@ feature -- Test: Edge Cases
 feature -- Test: Stress Tests (Real-world files)
 
 	test_comprehensive_fixture
-			-- Test comprehensive markdown file with all features.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html_from_file", "stress_test"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -431,7 +464,8 @@ feature -- Test: Stress Tests (Real-world files)
 		end
 
 	test_real_readme_fixture
-			-- Test real-world README file structure.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html_from_file", "stress_test", "use_case/documentation"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -451,7 +485,8 @@ feature -- Test: Stress Tests (Real-world files)
 		end
 
 	test_toc_from_comprehensive
-			-- Test TOC generation from complex document.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.table_of_contents", "stress_test"
 		local
 			md: SIMPLE_MARKDOWN
 			html, toc: STRING
@@ -468,7 +503,8 @@ feature -- Test: Stress Tests (Real-world files)
 		end
 
 	test_multiple_tables
-			-- Test document with multiple GFM tables.
+		note
+			testing: "covers/{MD_TABLE_PROCESSOR}.convert_header_row", "covers/{MD_TABLE_PROCESSOR}.convert_body_row", "stress_test"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -480,7 +516,8 @@ feature -- Test: Stress Tests (Real-world files)
 		end
 
 	test_nested_formatting_stress
-			-- Test nested inline formatting combinations.
+		note
+			testing: "covers/{MD_INLINE_PROCESSOR}.process", "stress_test"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -494,7 +531,8 @@ feature -- Test: Stress Tests (Real-world files)
 		end
 
 	test_large_code_block
-			-- Test large code block handling.
+		note
+			testing: "covers/{SIMPLE_MARKDOWN}.to_html", "covers/{SIMPLE_MARKDOWN}.is_code_fence", "stress_test"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
@@ -521,7 +559,8 @@ feature -- Test: Stress Tests (Real-world files)
 		end
 
 	test_special_chars_in_table
-			-- Test special characters in table cells.
+		note
+			testing: "covers/{MD_TABLE_PROCESSOR}.parse_cells", "covers/{MD_INLINE_PROCESSOR}.process_code_inline"
 		local
 			md: SIMPLE_MARKDOWN
 			html: STRING
