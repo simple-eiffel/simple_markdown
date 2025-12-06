@@ -70,16 +70,12 @@ feature -- Processing
 			-- Opening table tag.
 		do
 			Result := "<table>%N"
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_table_end: STRING
 			-- Closing table tag.
 		do
 			Result := "</table>%N"
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_header_row (a_line: STRING): STRING
@@ -103,8 +99,6 @@ feature -- Processing
 				i := i + 1
 			end
 			Result.append ("</tr></thead>%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_body_row (a_line: STRING): STRING
@@ -128,24 +122,18 @@ feature -- Processing
 				i := i + 1
 			end
 			Result.append ("</tr>%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_tbody_start: STRING
 			-- Opening tbody tag.
 		do
 			Result := "<tbody>%N"
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_tbody_end: STRING
 			-- Closing tbody tag.
 		do
 			Result := "</tbody>%N"
-		ensure
-			result_not_void: Result /= Void
 		end
 
 feature {NONE} -- Implementation
@@ -194,8 +182,6 @@ feature {NONE} -- Implementation
 			l_cell.left_adjust
 			l_cell.right_adjust
 			Result.extend (l_cell)
-		ensure
-			result_not_void: Result /= Void
 		end
 
 note

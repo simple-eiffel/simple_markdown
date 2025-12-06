@@ -37,8 +37,6 @@ feature -- Processing
 			Result := process_italic (Result)
 			Result := process_superscript (Result)
 			Result := process_subscript (Result)
-		ensure
-			result_not_void: Result /= Void
 		end
 
 feature -- Element Processing
@@ -94,8 +92,6 @@ feature -- Element Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_italic (a_text: STRING): STRING
@@ -153,8 +149,6 @@ feature -- Element Processing
 					else i := i + 1 end
 				else i := i + 1 end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_strikethrough (a_text: STRING): STRING
@@ -186,8 +180,6 @@ feature -- Element Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_code_inline (a_text: STRING): STRING
@@ -219,8 +211,6 @@ feature -- Element Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_links (a_text: STRING): STRING
@@ -255,8 +245,6 @@ feature -- Element Processing
 					else i := i + 1 end
 				else i := i + 1 end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_images (a_text: STRING): STRING
@@ -291,8 +279,6 @@ feature -- Element Processing
 					else i := i + 1 end
 				else i := i + 1 end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_autolinks (a_text: STRING): STRING
@@ -334,8 +320,6 @@ feature -- Element Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 feature {NONE} -- Implementation
@@ -350,8 +334,6 @@ feature {NONE} -- Implementation
 			Result.replace_substring_all ("<", "&lt;")
 			Result.replace_substring_all (">", "&gt;")
 			Result.replace_substring_all ("%"", "&quot;")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	is_trailing_punctuation (c: CHARACTER): BOOLEAN
@@ -391,8 +373,6 @@ feature -- Extended Syntax Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_superscript (a_text: STRING): STRING
@@ -428,8 +408,6 @@ feature -- Extended Syntax Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_subscript (a_text: STRING): STRING
@@ -476,8 +454,6 @@ feature -- Extended Syntax Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	process_footnote_refs (a_text: STRING): STRING
@@ -514,8 +490,6 @@ feature -- Extended Syntax Processing
 					i := i + 1
 				end
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 note

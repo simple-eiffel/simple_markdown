@@ -100,7 +100,6 @@ feature -- Conversion
 			last_html := l_result
 			Result := l_result
 		ensure
-			result_not_void: Result /= Void
 			last_html_set: last_html.same_string (Result)
 		end
 
@@ -124,8 +123,6 @@ feature -- Conversion
 			else
 				create Result.make_empty
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	to_html_fragment (a_markdown: STRING): STRING
@@ -134,8 +131,6 @@ feature -- Conversion
 			markdown_not_void: a_markdown /= Void
 		do
 			Result := inline_processor.process (a_markdown)
-		ensure
-			result_not_void: Result /= Void
 		end
 
 feature -- Access
@@ -174,8 +169,6 @@ feature -- Access
 				i := i + 1
 			end
 			Result.append ("</ul></nav>%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 feature -- Query
@@ -478,8 +471,6 @@ feature {NONE} -- Implementation: Block Conversion
 			Result.append ("</h")
 			Result.append_integer (l_level)
 			Result.append (">%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_blockquote (a_line: STRING): STRING
@@ -499,8 +490,6 @@ feature {NONE} -- Implementation: Block Conversion
 			Result.append ("<blockquote><p>")
 			Result.append (inline_processor.process (l_content))
 			Result.append ("</p></blockquote>%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_list_item (a_line: STRING): STRING
@@ -532,8 +521,6 @@ feature {NONE} -- Implementation: Block Conversion
 			Result.append ("<li>")
 			Result.append (inline_processor.process (l_content))
 			Result.append ("</li>%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_task_list_item (a_line: STRING): STRING
@@ -564,8 +551,6 @@ feature {NONE} -- Implementation: Block Conversion
 			Result.append ("> ")
 			Result.append (inline_processor.process (l_content))
 			Result.append ("</li>%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	convert_footnote_definition (a_line: STRING): STRING
@@ -602,8 +587,6 @@ feature {NONE} -- Implementation: Block Conversion
 			Result.append ("</sup> ")
 			Result.append (inline_processor.process (l_content))
 			Result.append ("</div>%N")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 feature {NONE} -- Implementation: Table Processing
@@ -775,8 +758,6 @@ feature {NONE} -- Implementation: Utilities
 			if not l_line.is_empty or Result.is_empty then
 				Result.extend (l_line)
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	escape_html (a_text: STRING): STRING
@@ -789,8 +770,6 @@ feature {NONE} -- Implementation: Utilities
 			Result.replace_substring_all ("<", "&lt;")
 			Result.replace_substring_all (">", "&gt;")
 			Result.replace_substring_all ("%"", "&quot;")
-		ensure
-			result_not_void: Result /= Void
 		end
 
 	generate_heading_id (a_text: STRING): STRING
@@ -823,8 +802,6 @@ feature {NONE} -- Implementation: Utilities
 			if not Result.is_empty and then Result [Result.count] = '-' then
 				Result.remove_tail (1)
 			end
-		ensure
-			result_not_void: Result /= Void
 		end
 
 invariant
