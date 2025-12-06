@@ -366,6 +366,135 @@ feature -- Test: Edge Cases
 			assert ("handles crlf", html.has_substring ("<h1"))
 		end
 
+feature -- Test: Stress Tests (Real-world files)
+
+	test_comprehensive_fixture
+			-- Test comprehensive markdown file with all features.
+		local
+			md: SIMPLE_MARKDOWN
+			html: STRING
+		do
+			create md.make
+			html := md.to_html_from_file ("tests/fixtures/comprehensive.md")
+			-- Verify key elements are present
+			assert ("has h1", html.has_substring ("<h1"))
+			assert ("has h2", html.has_substring ("<h2"))
+			assert ("has table", html.has_substring ("<table>"))
+			assert ("has code block", html.has_substring ("<pre><code"))
+			assert ("has bold", html.has_substring ("<strong>"))
+			assert ("has italic", html.has_substring ("<em>"))
+			assert ("has link", html.has_substring ("<a href="))
+			assert ("has list", html.has_substring ("<ul>"))
+			assert ("has hr", html.has_substring ("<hr>"))
+			assert ("has blockquote", html.has_substring ("<blockquote>"))
+			assert ("has del", html.has_substring ("<del>"))
+			assert ("has mark", html.has_substring ("<mark>"))
+			assert ("has sup", html.has_substring ("<sup>"))
+			assert ("has sub", html.has_substring ("<sub>"))
+		end
+
+	test_real_readme_fixture
+			-- Test real-world README file structure.
+		local
+			md: SIMPLE_MARKDOWN
+			html: STRING
+		do
+			create md.make
+			html := md.to_html_from_file ("tests/fixtures/real_readme.md")
+			-- Verify README elements
+			assert ("has h1", html.has_substring ("<h1"))
+			assert ("has features h2", html.has_substring ("Features"))
+			assert ("has installation h2", html.has_substring ("Installation"))
+			assert ("has usage h2", html.has_substring ("Usage"))
+			assert ("has api table", html.has_substring ("<table>"))
+			assert ("has code blocks", html.has_substring ("<pre><code"))
+			assert ("has xml code", html.has_substring ("language-xml"))
+			assert ("has eiffel code", html.has_substring ("language-eiffel"))
+			assert ("has links", html.has_substring ("<a href="))
+		end
+
+	test_toc_from_comprehensive
+			-- Test TOC generation from complex document.
+		local
+			md: SIMPLE_MARKDOWN
+			html, toc: STRING
+		do
+			create md.make
+			html := md.to_html_from_file ("tests/fixtures/comprehensive.md")
+			toc := md.table_of_contents
+			-- Verify TOC captures all sections
+			assert ("has toc nav", toc.has_substring ("<nav class=%"toc%">"))
+			assert ("has commonmark", toc.has_substring ("CommonMark"))
+			assert ("has gfm", toc.has_substring ("GFM"))
+			assert ("has extended", toc.has_substring ("Extended"))
+			assert ("has edge cases", toc.has_substring ("Edge Cases"))
+		end
+
+	test_multiple_tables
+			-- Test document with multiple GFM tables.
+		local
+			md: SIMPLE_MARKDOWN
+			html: STRING
+		do
+			create md.make
+			html := md.to_html_from_file ("tests/fixtures/real_readme.md")
+			-- Count table occurrences (should have multiple)
+			assert ("multiple tables", html.occurrences ('<') > 50)
+		end
+
+	test_nested_formatting_stress
+			-- Test nested inline formatting combinations.
+		local
+			md: SIMPLE_MARKDOWN
+			html: STRING
+		do
+			create md.make
+			html := md.to_html_fragment ("**bold with `code` inside** and *italic with [link](url)*")
+			assert ("has bold", html.has_substring ("<strong>"))
+			assert ("has code in bold", html.has_substring ("<code>code</code>"))
+			assert ("has italic", html.has_substring ("<em>"))
+			assert ("has link in italic", html.has_substring ("<a href="))
+		end
+
+	test_large_code_block
+			-- Test large code block handling.
+		local
+			md: SIMPLE_MARKDOWN
+			html: STRING
+			large_code: STRING
+			i: INTEGER
+		do
+			create large_code.make (1000)
+			large_code.append ("```eiffel%N")
+			from i := 1
+			until i > 50
+			loop
+				large_code.append ("feature {NONE} -- Line ")
+				large_code.append_integer (i)
+				large_code.append ("%N")
+				i := i + 1
+			end
+			large_code.append ("```")
+
+			create md.make
+			html := md.to_html (large_code)
+			assert ("has pre", html.has_substring ("<pre><code"))
+			assert ("has language", html.has_substring ("language-eiffel"))
+			assert ("has line 50", html.has_substring ("Line 50"))
+		end
+
+	test_special_chars_in_table
+			-- Test special characters in table cells.
+		local
+			md: SIMPLE_MARKDOWN
+			html: STRING
+		do
+			create md.make
+			html := md.to_html ("| Feature | Code |%N|---------|------|%N| `parse` | `csv.parse (str)` |")
+			assert ("has table", html.has_substring ("<table>"))
+			assert ("has code in cell", html.has_substring ("<code>parse</code>"))
+		end
+
 feature {NONE} -- Assertions
 
 	assert (a_tag: STRING; a_condition: BOOLEAN)
