@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>simple_markdown - Eiffel Markdown Library</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>simple_markdown</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#overview" class="active">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#api">API Reference</a></li>
+            <li><a href="#specifications">Specifications</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <header>
+            <h1>simple_markdown</h1>
+            <p class="tagline">Production-ready Markdown to HTML conversion for Eiffel</p>
+        </header>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                <strong>simple_markdown</strong> is a comprehensive Markdown to HTML conversion library for Eiffel.
+                It implements the CommonMark specification with GitHub Flavored Markdown (GFM) extensions
+                and additional extended syntax support.
+            </p>
+            <p>
+                The library follows Design by Contract principles with comprehensive preconditions,
+                postconditions, and class invariants for reliable operation.
+            </p>
+        </section>
+
+        <section id="features">
+            <h2>Features</h2>
+
+            <h3>CommonMark Core</h3>
+            <ul>
+                <li><strong>Headings</strong> - H1 through H6 with auto-generated IDs</li>
+                <li><strong>Bold</strong> - **text** or __text__</li>
+                <li><strong>Italic</strong> - *text* or _text_</li>
+                <li><strong>Inline code</strong> - `code`</li>
+                <li><strong>Code blocks</strong> - Fenced with ``` and language hints</li>
+                <li><strong>Links</strong> - [text](url)</li>
+                <li><strong>Images</strong> - ![alt](url)</li>
+                <li><strong>Lists</strong> - Unordered (-, *, +) and ordered (1. 2. 3.)</li>
+                <li><strong>Blockquotes</strong> - > text</li>
+                <li><strong>Horizontal rules</strong> - ---, ***, ___</li>
+                <li><strong>Paragraphs</strong> - Automatic paragraph wrapping</li>
+            </ul>
+
+            <h3>GFM Extensions</h3>
+            <ul>
+                <li><strong>Strikethrough</strong> - ~~text~~</li>
+                <li><strong>Tables</strong> - | col | col | with alignment</li>
+                <li><strong>Task lists</strong> - [ ] and [x] checkboxes</li>
+                <li><strong>Autolinks</strong> - URLs automatically linked</li>
+            </ul>
+
+            <h3>Extended Syntax</h3>
+            <ul>
+                <li><strong>Footnotes</strong> - [^1] references with definitions</li>
+                <li><strong>Highlight</strong> - ==text== for &lt;mark&gt;</li>
+                <li><strong>Subscript</strong> - ~text~ for H~2~O</li>
+                <li><strong>Superscript</strong> - ^text^ for x^2^</li>
+                <li><strong>Heading IDs</strong> - # Heading {#custom-id}</li>
+                <li><strong>Table of contents</strong> - Automatic TOC generation</li>
+            </ul>
+        </section>
+
+        <section id="installation">
+            <h2>Installation</h2>
+            <p>Add to your ECF file:</p>
+            <pre><code>&lt;library name="simple_markdown" location="$SIMPLE_MARKDOWN\simple_markdown.ecf"/&gt;</code></pre>
+            <p>Set the environment variable:</p>
+            <pre><code>SIMPLE_MARKDOWN=D:\prod\simple_markdown</code></pre>
+        </section>
+
+        <section id="usage">
+            <h2>Usage</h2>
+
+            <h3>Basic Conversion</h3>
+            <pre><code>local
+    md: SIMPLE_MARKDOWN
+    html: STRING
+do
+    create md.make
+    html := md.to_html ("# Hello World%N%NThis is **bold** text.")
+    -- Result: &lt;h1 id="hello-world"&gt;Hello World&lt;/h1&gt;
+    --         &lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text.&lt;/p&gt;
+end</code></pre>
+
+            <h3>Parse File</h3>
+            <pre><code>html := md.to_html_from_file ("README.md")</code></pre>
+
+            <h3>Inline Only (No Block Wrapping)</h3>
+            <pre><code>html := md.to_html_fragment ("**bold** and *italic*")
+-- Result: &lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt;</code></pre>
+
+            <h3>GFM Tables</h3>
+            <pre><code>md.to_html ("| Name | Age |%N|------|-----|%N| John | 30  |")
+-- Result: &lt;table&gt;&lt;thead&gt;...&lt;/thead&gt;&lt;tbody&gt;...&lt;/tbody&gt;&lt;/table&gt;</code></pre>
+
+            <h3>Task Lists</h3>
+            <pre><code>md.to_html ("- [ ] Todo%N- [x] Done")
+-- Result: &lt;ul class="task-list"&gt;&lt;li class="task-list-item"&gt;
+--         &lt;input type="checkbox" disabled&gt; Todo&lt;/li&gt;...</code></pre>
+
+            <h3>Table of Contents</h3>
+            <pre><code>create md.make
+html := md.to_html ("# Intro%N## Chapter 1%N## Chapter 2")
+toc := md.table_of_contents
+-- Result: &lt;nav class="toc"&gt;&lt;ul&gt;
+--         &lt;li class="toc-h1"&gt;&lt;a href="#intro"&gt;Intro&lt;/a&gt;&lt;/li&gt;...</code></pre>
+        </section>
+
+        <section id="architecture">
+            <h2>Architecture</h2>
+            <p>The library uses a modular design with focused helper classes:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Responsibility</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="api/simple_markdown.html">SIMPLE_MARKDOWN</a></td>
+                        <td>Main API, block-level parsing, public interface</td>
+                    </tr>
+                    <tr>
+                        <td><a href="api/md_inline_processor.html">MD_INLINE_PROCESSOR</a></td>
+                        <td>Inline elements (bold, italic, links, images, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td><a href="api/md_table_processor.html">MD_TABLE_PROCESSOR</a></td>
+                        <td>GFM table handling and cell parsing</td>
+                    </tr>
+                    <tr>
+                        <td><a href="api/md_parse_state.html">MD_PARSE_STATE</a></td>
+                        <td>Mutable parser state tracking</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="api">
+            <h2>API Reference</h2>
+
+            <h3>Conversion Features</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>to_html (STRING): STRING</code></td>
+                        <td>Convert markdown string to HTML</td>
+                    </tr>
+                    <tr>
+                        <td><code>to_html_from_file (STRING): STRING</code></td>
+                        <td>Convert markdown file to HTML</td>
+                    </tr>
+                    <tr>
+                        <td><code>to_html_fragment (STRING): STRING</code></td>
+                        <td>Convert inline markdown only (no block wrapping)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Access Features</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>last_html: STRING</code></td>
+                        <td>Result of last conversion</td>
+                    </tr>
+                    <tr>
+                        <td><code>headings: ARRAYED_LIST</code></td>
+                        <td>Collected headings for TOC generation</td>
+                    </tr>
+                    <tr>
+                        <td><code>table_of_contents: STRING</code></td>
+                        <td>Generate HTML table of contents</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Query Features</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>is_heading (STRING): BOOLEAN</code></td>
+                        <td>Check if line is a heading</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_blockquote (STRING): BOOLEAN</code></td>
+                        <td>Check if line is a blockquote</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_code_fence (STRING): BOOLEAN</code></td>
+                        <td>Check if line is a code fence</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_task_list_item (STRING): BOOLEAN</code></td>
+                        <td>Check if line is a task list item</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_horizontal_rule (STRING): BOOLEAN</code></td>
+                        <td>Check if line is a horizontal rule</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_list_item (STRING): BOOLEAN</code></td>
+                        <td>Check if line is any list item</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><a href="api/simple_markdown.html">View full API documentation &rarr;</a></p>
+        </section>
+
+        <section id="specifications">
+            <h2>Specifications</h2>
+            <p>This library implements features from the following specifications:</p>
+            <ul>
+                <li><a href="https://spec.commonmark.org/" target="_blank">CommonMark Specification</a> - Core markdown syntax</li>
+                <li><a href="https://github.github.com/gfm/" target="_blank">GitHub Flavored Markdown Spec</a> - Tables, task lists, strikethrough, autolinks</li>
+                <li><a href="https://www.markdownguide.org/extended-syntax/" target="_blank">Extended Syntax Guide</a> - Footnotes, highlight, subscript, superscript</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>MIT License - Copyright (c) 2024-2025, Larry Rix</p>
+            <p>Part of the <a href="https://github.com/ljr1981">simple_ library collection</a></p>
+        </footer>
+    </main>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD_INLINE_PROCESSOR - API Reference</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>simple_markdown</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="simple_markdown.html">SIMPLE_MARKDOWN</a></li>
+            <li><a href="md_inline_processor.html" class="active">MD_INLINE_PROCESSOR</a></li>
+            <li><a href="md_table_processor.html">MD_TABLE_PROCESSOR</a></li>
+            <li><a href="md_parse_state.html">MD_PARSE_STATE</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <header>
+            <h1>MD_INLINE_PROCESSOR</h1>
+            <p class="tagline">Processes inline markdown elements</p>
+        </header>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                <code>MD_INLINE_PROCESSOR</code> handles all inline markdown transformations including
+                bold, italic, strikethrough, code, links, images, and extended syntax like highlight,
+                subscript, and superscript.
+            </p>
+        </section>
+
+        <section id="creation">
+            <h2>Creation</h2>
+            <pre><code>local
+    processor: MD_INLINE_PROCESSOR
+do
+    create processor.make
+end</code></pre>
+        </section>
+
+        <section id="processing">
+            <h2>Main Processing</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Signature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>process</code></td>
+                        <td><code>(a_text: STRING): STRING</code></td>
+                        <td>Process all inline markdown elements in order</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Processing order (important for correct nesting):</p>
+            <ol>
+                <li>Images (before links to handle ![alt](url) first)</li>
+                <li>Links [text](url)</li>
+                <li>Autolinks (bare URLs)</li>
+                <li>Inline code `code`</li>
+                <li>Footnote references [^1]</li>
+                <li>Highlight ==text==</li>
+                <li>Strikethrough ~~text~~</li>
+                <li>Bold **text** and __text__</li>
+                <li>Italic *text* and _text_</li>
+                <li>Superscript ^text^</li>
+                <li>Subscript ~text~</li>
+            </ol>
+        </section>
+
+        <section id="elements">
+            <h2>Supported Elements</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Markdown</th>
+                        <th>HTML Output</th>
+                        <th>Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>**bold**</code> or <code>__bold__</code></td>
+                        <td><code>&lt;strong&gt;bold&lt;/strong&gt;</code></td>
+                        <td><code>process_bold</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>*italic*</code> or <code>_italic_</code></td>
+                        <td><code>&lt;em&gt;italic&lt;/em&gt;</code></td>
+                        <td><code>process_italic</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>~~deleted~~</code></td>
+                        <td><code>&lt;del&gt;deleted&lt;/del&gt;</code></td>
+                        <td><code>process_strikethrough</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>`code`</code></td>
+                        <td><code>&lt;code&gt;code&lt;/code&gt;</code></td>
+                        <td><code>process_code_inline</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[text](url)</code></td>
+                        <td><code>&lt;a href="url"&gt;text&lt;/a&gt;</code></td>
+                        <td><code>process_links</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>![alt](url)</code></td>
+                        <td><code>&lt;img src="url" alt="alt"&gt;</code></td>
+                        <td><code>process_images</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>https://example.com</code></td>
+                        <td><code>&lt;a href="..."&gt;...&lt;/a&gt;</code></td>
+                        <td><code>process_autolinks</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>==highlighted==</code></td>
+                        <td><code>&lt;mark&gt;highlighted&lt;/mark&gt;</code></td>
+                        <td><code>process_highlight</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>^super^</code></td>
+                        <td><code>&lt;sup&gt;super&lt;/sup&gt;</code></td>
+                        <td><code>process_superscript</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>~sub~</code></td>
+                        <td><code>&lt;sub&gt;sub&lt;/sub&gt;</code></td>
+                        <td><code>process_subscript</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[^1]</code></td>
+                        <td><code>&lt;sup&gt;&lt;a href="#fn-1"&gt;[1]&lt;/a&gt;&lt;/sup&gt;</code></td>
+                        <td><code>process_footnote_refs</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="security">
+            <h2>Security</h2>
+            <p>The processor escapes HTML within inline code to prevent XSS:</p>
+            <pre><code>-- Input: `&lt;script&gt;alert('xss')&lt;/script&gt;`
+-- Output: &lt;code&gt;&amp;lt;script&amp;gt;alert('xss')&amp;lt;/script&amp;gt;&lt;/code&gt;</code></pre>
+        </section>
+
+        <footer>
+            <p><a href="../index.html">&larr; Back to documentation</a></p>
+            <p>MIT License - Copyright (c) 2024-2025, Larry Rix</p>
+        </footer>
+    </main>
+</body>
+</html>

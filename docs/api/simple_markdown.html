@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMPLE_MARKDOWN - API Reference</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>simple_markdown</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="simple_markdown.html" class="active">SIMPLE_MARKDOWN</a></li>
+            <li><a href="md_inline_processor.html">MD_INLINE_PROCESSOR</a></li>
+            <li><a href="md_table_processor.html">MD_TABLE_PROCESSOR</a></li>
+            <li><a href="md_parse_state.html">MD_PARSE_STATE</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <header>
+            <h1>SIMPLE_MARKDOWN</h1>
+            <p class="tagline">Main API class for Markdown to HTML conversion</p>
+        </header>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                <code>SIMPLE_MARKDOWN</code> is the primary interface for converting Markdown text to HTML.
+                It handles block-level elements (headings, lists, code blocks, tables) and delegates
+                inline processing to helper classes.
+            </p>
+        </section>
+
+        <section id="creation">
+            <h2>Creation</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>make</code></td>
+                        <td>Initialize markdown processor with default settings</td>
+                    </tr>
+                </tbody>
+            </table>
+            <pre><code>local
+    md: SIMPLE_MARKDOWN
+do
+    create md.make
+end</code></pre>
+        </section>
+
+        <section id="conversion">
+            <h2>Conversion Features</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Signature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>to_html</code></td>
+                        <td><code>(a_markdown: STRING): STRING</code></td>
+                        <td>Convert markdown string to complete HTML with block elements</td>
+                    </tr>
+                    <tr>
+                        <td><code>to_html_from_file</code></td>
+                        <td><code>(a_path: STRING): STRING</code></td>
+                        <td>Read file and convert contents to HTML</td>
+                    </tr>
+                    <tr>
+                        <td><code>to_html_fragment</code></td>
+                        <td><code>(a_markdown: STRING): STRING</code></td>
+                        <td>Convert inline markdown only (no paragraph/block wrapping)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Contracts</h3>
+            <pre><code>to_html (a_markdown: STRING): STRING
+    require
+        markdown_not_void: a_markdown /= Void
+    ensure
+        result_not_void: Result /= Void
+        last_html_set: last_html = Result</code></pre>
+        </section>
+
+        <section id="access">
+            <h2>Access Features</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>last_html</code></td>
+                        <td><code>STRING</code></td>
+                        <td>Result of the most recent conversion</td>
+                    </tr>
+                    <tr>
+                        <td><code>headings</code></td>
+                        <td><code>ARRAYED_LIST [TUPLE [level: INTEGER; text: STRING; id: STRING]]</code></td>
+                        <td>Collected headings during parsing (for TOC)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="toc">
+            <h2>Table of Contents</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Signature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>table_of_contents</code></td>
+                        <td><code>: STRING</code></td>
+                        <td>Generate HTML TOC from collected headings</td>
+                    </tr>
+                </tbody>
+            </table>
+            <pre><code>local
+    md: SIMPLE_MARKDOWN
+    html, toc: STRING
+do
+    create md.make
+    html := md.to_html ("# Chapter 1%N## Section A%N## Section B%N# Chapter 2")
+    toc := md.table_of_contents
+    -- toc contains: &lt;nav class="toc"&gt;&lt;ul&gt;
+    --   &lt;li class="toc-h1"&gt;&lt;a href="#chapter-1"&gt;Chapter 1&lt;/a&gt;&lt;/li&gt;
+    --   &lt;li class="toc-h2"&gt;&lt;a href="#section-a"&gt;Section A&lt;/a&gt;&lt;/li&gt;
+    --   ...
+end</code></pre>
+        </section>
+
+        <section id="queries">
+            <h2>Query Features</h2>
+            <p>These features help identify markdown element types:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Signature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>is_heading</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line starts with # (heading)</td>
+                    </tr>
+                    <tr>
+                        <td><code>heading_level</code></td>
+                        <td><code>(a_line: STRING): INTEGER</code></td>
+                        <td>Returns 1-6 for heading level, 0 if not a heading</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_blockquote</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line starts with &gt;</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_code_fence</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line is ``` or ~~~</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_horizontal_rule</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line is ---, ***, or ___</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_list_item</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line is any list item (ordered or unordered)</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_unordered_list_item</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line starts with -, *, or +</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_ordered_list_item</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line starts with number and period</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_task_list_item</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line is - [ ] or - [x]</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_footnote_definition</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line is [^n]: definition</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_empty_line</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line is empty or whitespace only</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="supported">
+            <h2>Supported Markdown Elements</h2>
+
+            <h3>Block Elements</h3>
+            <ul>
+                <li>Headings (# through ######) with auto-generated or custom IDs</li>
+                <li>Paragraphs (automatic wrapping)</li>
+                <li>Code blocks (fenced with ``` or ~~~, with language hints)</li>
+                <li>Blockquotes (&gt; prefix)</li>
+                <li>Unordered lists (-, *, +)</li>
+                <li>Ordered lists (1. 2. 3.)</li>
+                <li>Task lists (- [ ] and - [x])</li>
+                <li>Horizontal rules (---, ***, ___)</li>
+                <li>Tables (GFM | col | col | syntax)</li>
+                <li>Footnote definitions ([^1]: text)</li>
+            </ul>
+
+            <h3>Inline Elements (via MD_INLINE_PROCESSOR)</h3>
+            <ul>
+                <li>Bold (**text** or __text__)</li>
+                <li>Italic (*text* or _text_)</li>
+                <li>Strikethrough (~~text~~)</li>
+                <li>Inline code (`code`)</li>
+                <li>Links ([text](url))</li>
+                <li>Images (![alt](url))</li>
+                <li>Autolinks (bare URLs)</li>
+                <li>Highlight (==text==)</li>
+                <li>Superscript (^text^)</li>
+                <li>Subscript (~text~)</li>
+                <li>Footnote references ([^1])</li>
+            </ul>
+        </section>
+
+        <section id="example">
+            <h2>Complete Example</h2>
+            <pre><code>class APPLICATION
+
+create
+    make
+
+feature {NONE} -- Initialization
+
+    make
+        local
+            md: SIMPLE_MARKDOWN
+            html: STRING
+        do
+            create md.make
+
+            -- Convert markdown with various elements
+            html := md.to_html ("[
+                # Welcome
+
+                This is **bold** and *italic* text.
+
+                ## Features
+
+                - Item one
+                - Item two
+                - Item three
+
+                | Name | Value |
+                |------|-------|
+                | Foo  | 42    |
+
+                ```eiffel
+                feature -- Example
+                    hello: STRING = "world"
+                ```
+
+                Visit https://example.com for more.
+            ]")
+
+            -- Generate table of contents
+            print (md.table_of_contents)
+            print ("%N%N")
+            print (html)
+        end
+
+end</code></pre>
+        </section>
+
+        <footer>
+            <p><a href="../index.html">&larr; Back to documentation</a></p>
+            <p>MIT License - Copyright (c) 2024-2025, Larry Rix</p>
+        </footer>
+    </main>
+</body>
+</html>

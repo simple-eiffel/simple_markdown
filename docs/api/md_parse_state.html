@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD_PARSE_STATE - API Reference</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>simple_markdown</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="simple_markdown.html">SIMPLE_MARKDOWN</a></li>
+            <li><a href="md_inline_processor.html">MD_INLINE_PROCESSOR</a></li>
+            <li><a href="md_table_processor.html">MD_TABLE_PROCESSOR</a></li>
+            <li><a href="md_parse_state.html" class="active">MD_PARSE_STATE</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <header>
+            <h1>MD_PARSE_STATE</h1>
+            <p class="tagline">Mutable parser state for markdown processing</p>
+        </header>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                <code>MD_PARSE_STATE</code> encapsulates the mutable state needed during markdown parsing.
+                It tracks whether the parser is currently inside various block elements like code blocks,
+                lists, tables, or paragraphs.
+            </p>
+        </section>
+
+        <section id="state">
+            <h2>State Attributes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>in_code_block</code></td>
+                        <td><code>BOOLEAN</code></td>
+                        <td>True when inside a fenced code block</td>
+                    </tr>
+                    <tr>
+                        <td><code>in_list</code></td>
+                        <td><code>BOOLEAN</code></td>
+                        <td>True when inside a list (ul or ol)</td>
+                    </tr>
+                    <tr>
+                        <td><code>list_type</code></td>
+                        <td><code>STRING</code></td>
+                        <td>"ul" or "ol" indicating current list type</td>
+                    </tr>
+                    <tr>
+                        <td><code>in_paragraph</code></td>
+                        <td><code>BOOLEAN</code></td>
+                        <td>True when inside a paragraph</td>
+                    </tr>
+                    <tr>
+                        <td><code>in_table</code></td>
+                        <td><code>BOOLEAN</code></td>
+                        <td>True when inside a table</td>
+                    </tr>
+                    <tr>
+                        <td><code>table_header_done</code></td>
+                        <td><code>BOOLEAN</code></td>
+                        <td>True after table header row is processed</td>
+                    </tr>
+                    <tr>
+                        <td><code>paragraph</code></td>
+                        <td><code>STRING</code></td>
+                        <td>Accumulator for paragraph content</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="operations">
+            <h2>Operations</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>make</code></td>
+                        <td>Initialize with default state (all false, empty strings)</td>
+                    </tr>
+                    <tr>
+                        <td><code>reset</code></td>
+                        <td>Reset all state to initial values</td>
+                    </tr>
+                    <tr>
+                        <td><code>set_in_code_block (BOOLEAN)</code></td>
+                        <td>Set code block state</td>
+                    </tr>
+                    <tr>
+                        <td><code>set_in_list (BOOLEAN)</code></td>
+                        <td>Set list state</td>
+                    </tr>
+                    <tr>
+                        <td><code>set_list_type (STRING)</code></td>
+                        <td>Set list type ("ul" or "ol")</td>
+                    </tr>
+                    <tr>
+                        <td><code>set_in_paragraph (BOOLEAN)</code></td>
+                        <td>Set paragraph state</td>
+                    </tr>
+                    <tr>
+                        <td><code>set_in_table (BOOLEAN)</code></td>
+                        <td>Set table state</td>
+                    </tr>
+                    <tr>
+                        <td><code>set_table_header_done (BOOLEAN)</code></td>
+                        <td>Set table header processed state</td>
+                    </tr>
+                    <tr>
+                        <td><code>append_to_paragraph (STRING)</code></td>
+                        <td>Add text to current paragraph</td>
+                    </tr>
+                    <tr>
+                        <td><code>clear_paragraph</code></td>
+                        <td>Clear paragraph accumulator</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="usage">
+            <h2>Usage Pattern</h2>
+            <p>Used internally by <code>SIMPLE_MARKDOWN</code> during line-by-line parsing:</p>
+            <pre><code>-- When entering a code block
+state.set_in_code_block (True)
+
+-- When processing list items
+if is_unordered_list_item (line) then
+    if not state.in_list then
+        state.set_in_list (True)
+        state.set_list_type ("ul")
+        Result.append ("&lt;ul&gt;")
+    end
+end
+
+-- When encountering blank line
+if state.in_paragraph then
+    Result.append ("&lt;/p&gt;")
+    state.set_in_paragraph (False)
+    state.clear_paragraph
+end</code></pre>
+        </section>
+
+        <footer>
+            <p><a href="../index.html">&larr; Back to documentation</a></p>
+            <p>MIT License - Copyright (c) 2024-2025, Larry Rix</p>
+        </footer>
+    </main>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD_TABLE_PROCESSOR - API Reference</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>simple_markdown</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="simple_markdown.html">SIMPLE_MARKDOWN</a></li>
+            <li><a href="md_inline_processor.html">MD_INLINE_PROCESSOR</a></li>
+            <li><a href="md_table_processor.html" class="active">MD_TABLE_PROCESSOR</a></li>
+            <li><a href="md_parse_state.html">MD_PARSE_STATE</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <header>
+            <h1>MD_TABLE_PROCESSOR</h1>
+            <p class="tagline">Processes GitHub Flavored Markdown tables</p>
+        </header>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                <code>MD_TABLE_PROCESSOR</code> handles GFM table syntax, converting pipe-delimited
+                rows into proper HTML table markup with thead, tbody, th, and td elements.
+            </p>
+        </section>
+
+        <section id="format">
+            <h2>Table Format</h2>
+            <pre><code>| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |</code></pre>
+            <p>Converts to:</p>
+            <pre><code>&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Header 1&lt;/th&gt;&lt;th&gt;Header 2&lt;/th&gt;&lt;th&gt;Header 3&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;Cell 1&lt;/td&gt;&lt;td&gt;Cell 2&lt;/td&gt;&lt;td&gt;Cell 3&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Cell 4&lt;/td&gt;&lt;td&gt;Cell 5&lt;/td&gt;&lt;td&gt;Cell 6&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+        </section>
+
+        <section id="queries">
+            <h2>Query Features</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Signature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>is_table_row</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line starts and ends with |</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_separator_row</code></td>
+                        <td><code>(a_line: STRING): BOOLEAN</code></td>
+                        <td>True if line is |---|---| pattern</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="conversion">
+            <h2>Conversion Features</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>convert_table_start</code></td>
+                        <td>Returns <code>&lt;table&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>convert_table_end</code></td>
+                        <td>Returns <code>&lt;/table&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>convert_header_row</code></td>
+                        <td>Converts header row to <code>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;...&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>convert_body_row</code></td>
+                        <td>Converts body row to <code>&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>convert_tbody_start</code></td>
+                        <td>Returns <code>&lt;tbody&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>convert_tbody_end</code></td>
+                        <td>Returns <code>&lt;/tbody&gt;</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="inline">
+            <h2>Inline Processing</h2>
+            <p>Cell contents are processed through <code>MD_INLINE_PROCESSOR</code>, so tables can contain:</p>
+            <ul>
+                <li>Bold and italic text</li>
+                <li>Links and images</li>
+                <li>Inline code</li>
+                <li>Strikethrough</li>
+            </ul>
+            <pre><code>| Feature | Status |
+|---------|--------|
+| **Bold** | ~~old~~ |
+| [Link](url) | `code` |</code></pre>
+        </section>
+
+        <footer>
+            <p><a href="../index.html">&larr; Back to documentation</a></p>
+            <p>MIT License - Copyright (c) 2024-2025, Larry Rix</p>
+        </footer>
+    </main>
+</body>
+</html>
