@@ -4,7 +4,7 @@
 
 # simple_markdown
 
-**[Documentation](https://ljr1981.github.io/simple_markdown/)**
+**[Documentation](https://simple-eiffel.github.io/simple_markdown/)**
 
 Production-ready Markdown to HTML conversion for Eiffel. CommonMark compliant with GitHub Flavored Markdown (GFM) and extended syntax support.
 
