@@ -3,7 +3,7 @@ note
 	author: "Larry Rix"
 	date: "$Date$"
 	revision: "$Revision$"
-	testing: "type/manual"
+	testing: "covers"
 	use_case_coverage: "[
 		Documentation Sites: test_real_readme_fixture, test_heading_*, test_toc_*
 		Static Site Generators: test_comprehensive_fixture, test_code_block_*
