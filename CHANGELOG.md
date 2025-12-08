@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Testing config updates, AutoTest fixes, .gitignore cleanup
+- Migrate to simple_testing library
+- Remove redundant result_not_void postconditions
+- Add EiffelStudio AutoTest coverage tags to all tests
+- Add test coverage documentation to note clause
+- Add stress tests with real-world markdown fixtures
+- Initial implementation of simple_markdown library
+
 ## [1.0.0] - 2025-12-08
 
 ### Added
