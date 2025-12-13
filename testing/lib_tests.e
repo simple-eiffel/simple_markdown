@@ -43,7 +43,7 @@ note
 	]"
 
 class
-	SIMPLE_MARKDOWN_TEST_SET
+	LIB_TESTS
 
 inherit
 	EQA_TEST_SET

@@ -21,7 +21,7 @@
 	</target>
 	<target name="simple_markdown_tests" extends="simple_markdown">
 		<description>Test target for simple_markdown</description>
-		<root class="MARKDOWN_TEST_APP" feature="make"/>
+		<root class="TEST_APP" feature="make"/>
 		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf"/>
 		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
 		<cluster name="test_classes" location=".\testing\" recursive="true"/>
