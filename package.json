@@ -1,0 +1,9 @@
+{
+  "name": "simple_markdown",
+  "version": "0.1.0",
+  "description": "Simple Markdown - Lightweight Markdown to HTML conversion for Eiffel",
+  "author": "Larry Rix",
+  "license": "MIT",
+  "category": "data-formats",
+  "keywords": ["markdown", "parser", "html", "documentation"]
+}
