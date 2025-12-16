@@ -41,12 +41,12 @@ Production-ready Markdown to HTML conversion for Eiffel. CommonMark compliant wi
 Add to your ECF:
 
 ```xml
-<library name="simple_markdown" location="$SIMPLE_MARKDOWN\simple_markdown.ecf"/>
+<library name="simple_markdown" location="$SIMPLE_EIFFEL/simple_markdown/simple_markdown.ecf"/>
 ```
 
-Set environment variable:
+Set environment variable (one-time setup for all simple_* libraries):
 ```
-SIMPLE_MARKDOWN=D:\prod\simple_markdown
+SIMPLE_EIFFEL=D:\prod
 ```
 
 ## Usage
