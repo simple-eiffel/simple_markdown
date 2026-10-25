@@ -36,6 +36,19 @@ Production-ready Markdown to HTML conversion for Eiffel. CommonMark compliant wi
 - **Heading IDs** (# Heading {#custom-id})
 - **Table of contents** generation
 
+### Rich documents (1.1.0)
+
+`to_document` reads Markdown into a `SIMPLE_DOCUMENT` (the simple_document
+library: headings, paragraphs, lists, quotes, rules, code blocks and tables of
+Unicode text with bold, italic, code, strikethrough, superscript and links),
+and `from_document` writes one back as Markdown that reads back into the same
+document. simple_widgets shows and edits such documents.
+
+```eiffel
+doc := md.to_document ("# Notes%N%NIn the **beginning**, see [John 1:1](John 1:1).")
+text := md.from_document (doc)
+```
+
 ## Installation
 
 Add to your ECF:

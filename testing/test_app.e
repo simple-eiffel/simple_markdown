@@ -91,6 +91,16 @@ feature {NONE} -- Initialization
 			run_test (agent tests.test_large_code_block, "test_large_code_block")
 			run_test (agent tests.test_special_chars_in_table, "test_special_chars_in_table")
 
+			-- LG-12: Markdown into SIMPLE_DOCUMENT and back
+			create document_tests
+			run_test (agent document_tests.test_reads_blocks, "test_reads_blocks")
+			run_test (agent document_tests.test_hard_breaks, "test_hard_breaks")
+			run_test (agent document_tests.test_reads_inline, "test_reads_inline")
+			run_test (agent document_tests.test_round_trip, "test_round_trip")
+			run_test (agent document_tests.test_round_trip_hebrew_greek, "test_round_trip_hebrew_greek")
+			run_test (agent document_tests.test_writer_escapes, "test_writer_escapes")
+			run_test (agent document_tests.test_block_source, "test_block_source")
+
 			print ("%N=============================%N")
 			print ("Results: " + passed.out + " passed, " + failed.out + " failed%N")
 
@@ -102,6 +112,8 @@ feature {NONE} -- Initialization
 		end
 
 feature {NONE} -- Implementation
+
+	document_tests: MD_DOCUMENT_TESTS
 
 	tests: LIB_TESTS
 
