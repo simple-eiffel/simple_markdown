@@ -16,6 +16,7 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#installation">Installation</a></li>
             <li><a href="#usage">Usage</a></li>
+            <li><a href="#rich-documents">Rich documents</a></li>
             <li><a href="#architecture">Architecture</a></li>
             <li><a href="#api">API Reference</a></li>
             <li><a href="#specifications">Specifications</a></li>
@@ -122,6 +123,25 @@ html := md.to_html ("# Intro%N## Chapter 1%N## Chapter 2")
 toc := md.table_of_contents
 -- Result: &lt;nav class="toc"&gt;&lt;ul&gt;
 --         &lt;li class="toc-h1"&gt;&lt;a href="#intro"&gt;Intro&lt;/a&gt;&lt;/li&gt;...</code></pre>
+        </section>
+
+        <section id="rich-documents">
+            <h2>Rich documents (1.1.0)</h2>
+            <p>
+                <code>to_document</code> reads Markdown into a <code>SIMPLE_DOCUMENT</code>
+                (the <a href="https://github.com/simple-eiffel/simple_document">simple_document</a>
+                library: headings, paragraphs, lists, quotes, rules, code blocks and tables of
+                Unicode text with bold, italic, code, strikethrough, superscript and links).
+                <code>from_document</code> writes one back as Markdown that reads back into the
+                same document. simple_widgets shows and edits such documents.
+            </p>
+            <pre><code>doc := md.to_document ("# Notes%N%NIn the **beginning**, see [John 1:1](John 1:1).")
+text := md.from_document (doc)</code></pre>
+            <p>
+                Pointed Hebrew and polytonic Greek survive the round trip. The HTML
+                conversion (<code>to_html</code>) is unchanged. The library now depends on
+                simple_document. 46 tests pass at 1.1.0.
+            </p>
         </section>
 
         <section id="architecture">
