@@ -13,15 +13,19 @@
 		<setting name="console_application" value="true"/>
 		<setting name="dead_code_removal" value="feature"/>
 		<capability>
-			<concurrency support="scoop" use="thread"/>
+			<concurrency support="scoop"/>
 			<void_safety support="all"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="simple_document" location="$SIMPLE_EIFFEL\simple_document\simple_document.ecf"/>
 		<cluster name="src" location=".\src\" recursive="true"/>
 	</target>
 	<target name="simple_markdown_tests" extends="simple_markdown">
 		<description>Test target for simple_markdown</description>
 		<root class="TEST_APP" feature="make"/>
+		<option warning="warning" syntax="standard" manifest_array_type="mismatch_warning">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
 		<library name="simple_testing" location="$SIMPLE_EIFFEL/simple_testing/simple_testing.ecf"/>
 		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
 		<cluster name="test_classes" location=".\testing\" recursive="true"/>

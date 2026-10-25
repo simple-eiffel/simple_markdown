@@ -133,6 +133,19 @@ feature -- Conversion
 			Result := inline_processor.process (a_markdown)
 		end
 
+	to_document (a_markdown: READABLE_STRING_GENERAL): SIMPLE_DOCUMENT
+			-- `a_markdown' (Unicode) as a rich document (MD_DOCUMENT_READER).
+		do
+			Result := (create {MD_DOCUMENT_READER}.make).read (a_markdown)
+		end
+
+	from_document (a_document: SIMPLE_DOCUMENT): STRING_32
+			-- `a_document' as Markdown (MD_DOCUMENT_WRITER); `to_document'
+			-- reads it back into the same document.
+		do
+			Result := (create {MD_DOCUMENT_WRITER}.make).write (a_document)
+		end
+
 feature -- Access
 
 	last_html: STRING
