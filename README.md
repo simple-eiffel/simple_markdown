@@ -177,7 +177,10 @@ The library uses focused helper classes:
 
 ## Dependencies
 
-- EiffelBase only
+- EiffelBase
+- [simple_document](https://github.com/simple-eiffel/simple_document) (the document model behind `to_document` and `from_document`, since 1.1.0)
+
+46 tests pass at 1.1.0.
 
 ## License
 
