@@ -445,7 +445,7 @@ feature -- Test: Stress Tests (Real-world files)
 			html: STRING
 		do
 			create md.make
-			html := md.to_html_from_file ("D:/prod/simple_markdown/testing/fixtures/comprehensive.md")
+			html := md.to_html_from_file (fleet_path ("simple_markdown/testing/fixtures/comprehensive.md"))
 			-- Verify key elements are present
 			assert ("has h1", html.has_substring ("<h1"))
 			assert ("has h2", html.has_substring ("<h2"))
@@ -471,7 +471,7 @@ feature -- Test: Stress Tests (Real-world files)
 			html: STRING
 		do
 			create md.make
-			html := md.to_html_from_file ("D:/prod/simple_markdown/testing/fixtures/real_readme.md")
+			html := md.to_html_from_file (fleet_path ("simple_markdown/testing/fixtures/real_readme.md"))
 			-- Verify README elements
 			assert ("has h1", html.has_substring ("<h1"))
 			assert ("has features h2", html.has_substring ("Features"))
@@ -492,7 +492,7 @@ feature -- Test: Stress Tests (Real-world files)
 			html, toc: STRING
 		do
 			create md.make
-			html := md.to_html_from_file ("D:/prod/simple_markdown/testing/fixtures/comprehensive.md")
+			html := md.to_html_from_file (fleet_path ("simple_markdown/testing/fixtures/comprehensive.md"))
 			toc := md.table_of_contents
 			-- Verify TOC captures all sections
 			assert ("has toc nav", toc.has_substring ("<nav class=%"toc%">"))
@@ -510,7 +510,7 @@ feature -- Test: Stress Tests (Real-world files)
 			html: STRING
 		do
 			create md.make
-			html := md.to_html_from_file ("D:/prod/simple_markdown/testing/fixtures/real_readme.md")
+			html := md.to_html_from_file (fleet_path ("simple_markdown/testing/fixtures/real_readme.md"))
 			-- Count table occurrences (should have multiple)
 			assert ("multiple tables", html.occurrences ('<') > 50)
 		end
@@ -576,6 +576,18 @@ feature {NONE} -- Assertions
 	assert (a_tag: STRING; a_condition: BOOLEAN)
 		do
 			eqa_assert (a_tag, a_condition)
+		end
+
+feature {NONE} -- Fixtures
+
+	fleet_path (a_tail: STRING): STRING
+			-- `a_tail' under the folder holding the simple_* libraries.
+		do
+			if attached (create {EXECUTION_ENVIRONMENT}).item ("SIMPLE_EIFFEL") as l_root then
+				Result := l_root.to_string_8 + "/" + a_tail
+			else
+				Result := a_tail
+			end
 		end
 
 end
